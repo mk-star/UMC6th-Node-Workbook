@@ -11,8 +11,13 @@ export const userSignin = async (req, res, next) => {
 };
 
 export const memberMission = async (req, res, next) => {
-  console.log("도전 중인 미션 추가를 요청하였습니다!");
+  console.log("도전 중인 미션에 추가를 요청하였습니다!");
   console.log("body:", req.body); // 값이 잘 들어오나 찍어보기 위한 테스트 용
 
-  res.send(response(status.SUCCESS, await joinMemberMission(req.body)));
+  res.send(
+    response(
+      status.SUCCESS,
+      await joinMemberMission(req.params.missionId, req.body)
+    )
+  );
 };

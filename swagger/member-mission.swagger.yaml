@@ -1,10 +1,15 @@
 paths:
-  /user/add/mission:
+  /user/missions/{missionId}:
     post:
       tags:
         - User
       summary: 도전 중인 미션 추가
       parameters:
+        - name: missionId
+          in: path
+          schema:
+          type: integer
+          required: true
         - name: memberMission
           in: body
           required: true

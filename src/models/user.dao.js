@@ -89,19 +89,24 @@ export const getUserPreferToUserID = async (userID) => {
   }
 };
 
+// 가게 미션을 멤버 미션에 추가
 export const addMemberMission = async (data) => {
   try {
     const conn = await pool.getConnection();
 
-    const [confirm1] = await pool.query(confirmMember, data.member_id);
-    const [confirm2] = await pool.query(confirmMemberMission, data.mission_id);
+    console.log(data.member_id);
+    console.log(data.mission_id);
 
+    // 존재하는 멤버인지
+    const [confirm1] = await pool.query(confirmMember, data.member_id);
     if (!confirm1[0].isExistMember) {
       conn.release();
       return -1;
     }
 
-    if (!confirm2[0].isExistMemberMission) {
+    // 도전하려는 미션이 이미 도전 중인지(이미 있는 미션인지)
+    const [confirm2] = await pool.query(confirmMemberMission, data.mission_id);
+    if (confirm2[0].isExistMemberMission) {
       conn.release();
       return -2;
     }
