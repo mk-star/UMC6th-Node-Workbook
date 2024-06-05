@@ -4,11 +4,65 @@ import { status } from "../../config/response.status.js";
 import {
   confirmStore,
   confirmReview,
+  confirmRegion,
   getReviewInfo,
   insertReviewSql,
   getMissionInfo,
   insertMissionSql,
+  getStoreInfo,
+  insertStoreSql,
 } from "./store.sql.js";
+
+// 특정 지역에 가게 추가 성공 시 반환
+export const getStoreRegion = async (storeId) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const [store] = await pool.query(getStoreInfo, storeId);
+
+    console.log(store);
+
+    if (store.length == 0) {
+      return -1;
+    }
+
+    conn.release();
+
+    return store;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 특정 지역에 가게 추가
+export const addStoreRegion = async (data) => {
+  try {
+    const conn = await pool.getConnection();
+
+    // 지역 존재 여부 확인
+    const [confirm1] = await pool.query(confirmRegion, data.regionId);
+    if (!confirm1[0].isExistRegion) {
+      conn.release();
+      return -1; // 지역 존재하지 않는 경우, -1 반환
+    }
+
+    // 가게 추가
+    const result = await pool.query(insertStoreSql, [
+      data.regionId,
+      data.name,
+      data.type,
+      data.rating,
+      data.status,
+      data.address,
+    ]);
+
+    conn.release();
+    return result[0].insertId; // 리뷰 작성 성공 시 insertId 반환
+  } catch (err) {
+    throw new BaseError(status.BAD_REQUEST);
+  }
+};
+
 // 리뷰 작성
 export const addReview = async (data) => {
   try {
@@ -31,10 +85,6 @@ export const addReview = async (data) => {
       return -2; // 이미 리뷰를 작성한 경우, -2 반환
     }
 
-    console.log(data.memberId);
-    console.log(data.storeId);
-    console.log(data.score);
-    console.log(data.body);
     // 리뷰 작성
     const result = await pool.query(insertReviewSql, [
       data.memberId,

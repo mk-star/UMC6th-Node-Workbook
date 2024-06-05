@@ -126,4 +126,12 @@ export const status = {
     code: "STORE4002",
     message: "존재하지 않는 가게입니다.",
   },
+
+  // region err
+  REGION_NOT_EXIST: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "STORE4003",
+    message: "존재하지 않는 지역입니다.",
+  },
 };

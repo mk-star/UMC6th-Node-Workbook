@@ -1,9 +1,34 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { addReview, getReview } from "../models/store.dao.js";
-import { addReviewResponseDTO } from "../dtos/store.dto.js";
-import { addMission, getMission } from "../models/store.dao.js";
-import { addMissionResponseDTO } from "../dtos/store.dto.js";
+import { addReview, getReview, addStoreRegion } from "../models/store.dao.js";
+import {
+  addReviewResponseDTO,
+  addMissionResponseDTO,
+  addStoreRegionResponseDTO,
+} from "../dtos/store.dto.js";
+import { addMission, getMission, getStoreRegion } from "../models/store.dao.js";
+
+// 특정 지역에 가게 추가
+export const joinStoreRegion = async (regionId, body) => {
+  try {
+    const storeRegionData = await addStoreRegion({
+      regionId: regionId,
+      name: body.name,
+      type: body.type,
+      rating: body.rating,
+      status: body.status,
+      address: body.address,
+    });
+    if (storeRegionData === -1) {
+      throw new BaseError(status.REGION_NOT_EXIST);
+    } else {
+      // 성공 시
+      return addStoreRegionResponseDTO(await getStoreRegion(storeRegionData));
+    }
+  } catch (err) {
+    throw err;
+  }
+};
 
 // 리뷰 작성
 export const joinReview = async (storeId, body) => {

@@ -1,3 +1,8 @@
+// 지역 가게 response DTO
+export const addStoreRegionResponseDTO = (store) => {
+  return { store };
+};
+
 // 리뷰 response DTO
 export const addReviewResponseDTO = (review) => {
   return { review };
