@@ -1,5 +1,5 @@
 // swagger.config.js
-// swagger는 이러한 API 명세를 도와주는 도구
+
 import SwaggerJsdoc from "swagger-jsdoc";
 
 const options = {
