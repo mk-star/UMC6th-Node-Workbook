@@ -49,7 +49,7 @@ paths:
               prefer:
                 type: array
                 description: 선호 카테고리 번호
-                example: [1, 3, 5]
+                example: [1, 2]
       responses:
         "200":
           description: 회원 가입 성공!

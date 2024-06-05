@@ -1,5 +1,5 @@
 export const insertUserSql =
-  "INSERT INTO member (name, email, gender, birth, address, spec_address, phone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  "INSERT INTO member (name, email, gender, birth, address, spec_address, phone) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
 export const getUserID = "SELECT * FROM member WHERE id = ?";
 
