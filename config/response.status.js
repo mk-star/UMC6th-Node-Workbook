@@ -104,4 +104,18 @@ export const status = {
     code: "SIGNIN4003",
     message: "비밀번호가 일치하지 않습니다.",
   },
+
+  // store err
+  REVIEW_ALREADY_EXIST: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "STORE4001",
+    message: "이미 리뷰를 작성했습니다.",
+  },
+  STORE_NOT_EXIST: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "STORE4002",
+    message: "존재하지 않는 가게입니다.",
+  },
 };

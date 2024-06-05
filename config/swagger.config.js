@@ -1,5 +1,3 @@
-// swagger.config.js
-
 import SwaggerJsdoc from "swagger-jsdoc";
 
 const options = {
