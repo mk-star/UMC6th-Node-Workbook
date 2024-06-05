@@ -68,6 +68,13 @@ export const status = {
     message: "이미 가입된 이메일이 존재합니다.",
   },
 
+  MEMBERMISSION_NOT_EXIST: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "MEMBER4004",
+    message: "존재하지 않는 미션입니다.",
+  },
+
   // db error
   PARAMETER_IS_WRONG: {
     status: StatusCodes.BAD_REQUEST,

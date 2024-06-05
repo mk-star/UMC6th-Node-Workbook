@@ -39,3 +39,20 @@ export const joinUser = async (body) => {
     );
   }
 };
+
+export const joinMemberMission = async (body) => {
+  const joinMemberMissionData = await addMemberMission({
+    mission_id: body.mission_id,
+    member_id: body.member_id,
+  });
+
+  if (joinMemberMissionData == -1) {
+    throw new BaseError(status.MEMBER_NOT_FOUND);
+  } else if (joinMemberMissionData == -2) {
+    throw new BaseError(status.MEMBERMISSION_NOT_EXIST);
+  } else {
+    return memberMissionResponseDTO(
+      await getMemberMission(joinMemberMissionData)
+    );
+  }
+};

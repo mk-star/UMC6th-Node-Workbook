@@ -11,3 +11,14 @@ export const confirmEmail =
 
 export const getPreferToUserID =
   "SELECT lc.id, lc.category_id, lc.member_id, fc.name FROM like_category lc JOIN food_category fc on lc.category_id = fc.id WHERE lc.member_id = ? ORDER BY lc.category_id ASC;";
+
+export const confirmMember =
+  "SELECT EXISTS(SELECT 1 FROM member WHERE id = ?) as isExistMember;";
+
+export const confirmMemberMission =
+  "SELECT EXISTS(SELECT 1 FROM mission WHERE id = ?) as isExistMemberMission;";
+
+export const getMemberMissionInfo = "SELECT * FROM member_mission WHERE id = ?";
+
+export const insertMemberMissionSql =
+  "INSERT INTO member_mission (mission_id, member_id) VALUES (?, ?);";

@@ -12,3 +12,7 @@ export const signinResponseDTO = (user, prefer) => {
     preferCategory: preferFood,
   };
 };
+
+export const memberMissionResponseDTO = (membermission) => {
+  return { membermission };
+};

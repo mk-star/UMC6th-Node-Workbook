@@ -7,6 +7,10 @@ import {
   getUserID,
   insertUserSql,
   getPreferToUserID,
+  confirmMember,
+  confirmMemberMission,
+  insertMemberMissionSql,
+  getMemberMissionInfo,
 } from "./user.sql.js";
 
 // sign in -> insert query
@@ -80,6 +84,55 @@ export const getUserPreferToUserID = async (userID) => {
     conn.release();
 
     return prefer;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+export const addMemberMission = async (data) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const [confirm1] = await pool.query(confirmMember, data.member_id);
+    const [confirm2] = await pool.query(confirmMemberMission, data.mission_id);
+
+    if (!confirm1[0].isExistMember) {
+      conn.release();
+      return -1;
+    }
+
+    if (!confirm2[0].isExistMemberMission) {
+      conn.release();
+      return -2;
+    }
+
+    const result = await pool.query(insertMemberMissionSql, [
+      data.mission_id,
+      data.member_id,
+    ]);
+
+    conn.release();
+
+    return result[0].insertId;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+export const getMemberMission = async (member_missionId) => {
+  try {
+    const conn = await pool.getConnection();
+    const [membermission] = await pool.query(
+      getMemberMissionInfo,
+      member_missionId
+    );
+
+    if (membermission.length == 0) {
+      return -1;
+    }
+
+    conn.release();
+    return membermission;
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG);
   }
