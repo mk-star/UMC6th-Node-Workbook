@@ -4,10 +4,11 @@ import { status } from "../../config/response.status.js";
 import {
   confirmStore,
   confirmReview,
+  getReviewInfo,
   insertReviewSql,
-  getReviewID,
+  getMissionInfo,
+  insertMissionSql,
 } from "./store.sql.js";
-
 // 리뷰 작성
 export const addReview = async (data) => {
   try {
@@ -30,6 +31,10 @@ export const addReview = async (data) => {
       return -2; // 이미 리뷰를 작성한 경우, -2 반환
     }
 
+    console.log(data.memberId);
+    console.log(data.storeId);
+    console.log(data.score);
+    console.log(data.body);
     // 리뷰 작성
     const result = await pool.query(insertReviewSql, [
       data.memberId,
@@ -45,12 +50,12 @@ export const addReview = async (data) => {
   }
 };
 
-// 리뷰 정보 얻기
-export const getReview = async (ReviewId) => {
+// 리뷰 작성이 성공했을 때 반환
+export const getReview = async (reviewId) => {
   try {
     const conn = await pool.getConnection();
 
-    const [review] = await pool.query(getReviewID, ReviewId);
+    const [review] = await pool.query(getReviewInfo, reviewId);
 
     console.log(review);
 
@@ -61,6 +66,47 @@ export const getReview = async (ReviewId) => {
     conn.release();
 
     return review;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 미션 작성
+export const addMission = async (data) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const result = await pool.query(insertMissionSql, [
+      data.store_id,
+      data.price,
+      data.point,
+      data.deadline,
+    ]);
+
+    conn.release();
+
+    return result[0].insertId;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 미션 작성이 성공했을 때 반환
+export const getMission = async (missionId) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const [mission] = await pool.query(getMissionInfo, missionId);
+
+    console.log(mission);
+
+    if (mission.length == 0) {
+      return -1;
+    }
+
+    conn.release();
+
+    return mission;
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG);
   }
