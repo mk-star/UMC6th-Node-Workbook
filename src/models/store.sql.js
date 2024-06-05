@@ -7,4 +7,4 @@ export const confirmStore =
 export const confirmReview =
   "SELECT EXISTS(SELECT 1 FROM review WHERE member_id = ? AND store_id = ?) as isExistReview;";
 
-export const getReviewID = "SELECT * FROM review WHERE id = ?";
+export const getReviewInfo = "SELECT * FROM review WHERE id = ?;";

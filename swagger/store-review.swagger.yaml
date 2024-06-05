@@ -17,20 +17,20 @@ paths:
             properties:
               memberId:
                 type: integer
-                description: 유저 pk
+                description: 유저 PK
                 example: 1
               storeId:
                 type: integer
-                description: 가게 pk
+                description: 가게 PK
                 example: 1
               body:
                 type: string
                 description: 리뷰 내용
-                example: 굿
+                example: 맛있어요!!!!
               score:
                 type: float
                 description: 점수
-                example: 2.1
+                example: 10
       responses:
         "200":
           description: 리뷰 작성 성공!
