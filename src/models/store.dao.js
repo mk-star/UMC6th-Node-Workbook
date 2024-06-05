@@ -13,22 +13,22 @@ export const addReview = async (data) => {
   try {
     const conn = await pool.getConnection();
 
-    // // 가게 존재 여부 확인
-    // const [confirm1] = await pool.query(confirmStore, data.storeId);
-    // if (!confirm1[0].isExistStore) {
-    //   conn.release();
-    //   return -1; // 가게가 존재하지 않는 경우, -1 반환
-    // }
+    // 가게 존재 여부 확인
+    const [confirm1] = await pool.query(confirmStore, data.storeId);
+    if (!confirm1[0].isExistStore) {
+      conn.release();
+      return -1; // 가게가 존재하지 않는 경우, -1 반환
+    }
 
-    // // 리뷰 유무 여부 확인
-    // const [confirm2] = await pool.query(confirmReview, [
-    //   data.memberId,
-    //   data.storeId,
-    // ]);
-    // if (confirm2[0].isExistReview) {
-    //   conn.release();
-    //   return -2; // 이미 리뷰를 작성한 경우, -2 반환
-    // }
+    // 리뷰 유무 여부 확인
+    const [confirm2] = await pool.query(confirmReview, [
+      data.memberId,
+      data.storeId,
+    ]);
+    if (confirm2[0].isExistReview) {
+      conn.release();
+      return -2; // 이미 리뷰를 작성한 경우, -2 반환
+    }
 
     // 리뷰 작성
     const result = await pool.query(insertReviewSql, [
