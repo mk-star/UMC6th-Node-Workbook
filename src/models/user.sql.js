@@ -24,3 +24,16 @@ export const getMemberMissionInfo = "SELECT * FROM member_mission WHERE id = ?";
 
 export const insertMemberMissionSql =
   "INSERT INTO member_mission (mission_id, member_id) VALUES (?, ?);";
+
+// 내가 작성한 리뷰 목록
+export const getReviewByReviewId =
+  "SELECT m.name, m.id as member_id, r.id as review_id, r.rate, r.body, r.created_at " +
+  "FROM review r JOIN member m ON r.member_id = m.id " +
+  "WHERE m.id = ? AND r.id < ? " +
+  "ORDER BY r.id DESC LIMIT ? ;";
+
+export const getReviewByReviewIdAtFirst =
+  "SELECT m.name, m.id as member_id, r.id as review_id, r.rate, r.body, r.created_at " +
+  "FROM review r JOIN member m ON r.member_id = m.id " +
+  "WHERE m.id = ? " +
+  "ORDER BY r.id DESC LIMIT ? ;";

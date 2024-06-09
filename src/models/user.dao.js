@@ -11,6 +11,8 @@ import {
   confirmMemberMission,
   insertMemberMissionSql,
   getMemberMissionInfo,
+  getReviewByReviewIdAtFirst,
+  getReviewByReviewId,
 } from "./user.sql.js";
 
 // sign in -> insert query
@@ -138,6 +140,44 @@ export const getMemberMission = async (member_missionId) => {
 
     conn.release();
     return membermission;
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 내가 작성한 리뷰 목록 조회(페이징)
+export const getPreviewReview = async (cursorId, size, memberId) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const [confirm] = await pool.query(confirmMember, memberId);
+
+    // 멤버가 존재하지 않음
+    if (!confirm[0].isExistMember) {
+      console.release();
+      return -1;
+    }
+
+    if (
+      cursorId == "undefined" ||
+      typeof cursorId == "undefined" ||
+      cursorId == null
+    ) {
+      const [reviews] = await pool.query(getReviewByReviewIdAtFirst, [
+        parseInt(memberId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return reviews;
+    } else {
+      const [reviews] = await pool.query(getReviewByReviewId, [
+        parseInt(memberId),
+        parseInt(cursorId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return reviews;
+    }
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG);
   }
