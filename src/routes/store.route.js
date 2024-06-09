@@ -6,6 +6,7 @@ import {
   storeMission,
   storeRegion,
   reviewPreview,
+  missionPreview,
 } from "../controllers/store.controller.js";
 
 export const storeRouter = express.Router({ mergeParams: true });
@@ -19,5 +20,8 @@ storeRouter.post("/reviews/:storeId", asyncHandler(storeReview));
 // 미션 작성
 storeRouter.post("/missions/:storeId", asyncHandler(storeMission));
 
-// 목록 조회(페이징)
+// 특정 가게 리뷰 목록 조회(페이징)
 storeRouter.get("/reviews/:storeId", asyncHandler(reviewPreview));
+
+// 특정 가게 미션 목록 조회(페이징)
+storeRouter.get("/mission/:storeId", asyncHandler(missionPreview));

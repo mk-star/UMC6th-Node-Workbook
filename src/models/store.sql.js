@@ -24,7 +24,7 @@ export const insertMissionSql =
 
 export const getMissionInfo = "SELECT * FROM mission WHERE id = ?";
 
-// 미션 목록 조회(페이징)
+// 특정 가게의 리뷰 목록 조회(페이징)
 export const getReviewByReviewId =
   "SELECT m.name, m.id as member_id, r.id as review_id, r.rate, r.body, r.created_at " +
   "FROM review r JOIN member m on r.member_id = m.id " +
@@ -36,3 +36,16 @@ export const getReviewByReviewIdAtFirst =
   "FROM review r JOIN member m on r.member_id = m.id " +
   "WHERE r.store_id = ? " +
   "ORDER BY r.id DESC LIMIT ? ;";
+
+// 특정 가게의 미션 목록 조회(페이징)
+export const getMissionByReviewId =
+  "SELECT s.name, s.type, m.id as mission_id, s.id as store_id, m.point, m.deadline, m.price " +
+  "FROM mission m JOIN store s on m.store_id = s.id " +
+  "WHERE m.store_id = ? AND m.id < ? " +
+  "ORDER BY m.id DESC LIMIT ? ;";
+
+export const getMissionByReviewIdAtFirst =
+  "SELECT s.name, s.type, m.id as mission_id, s.id as store_id, m.point, m.deadline, m.price " +
+  "FROM mission m JOIN store s on m.store_id = s.id " +
+  "WHERE m.store_id = ? " +
+  "ORDER BY m.id DESC LIMIT ? ;";

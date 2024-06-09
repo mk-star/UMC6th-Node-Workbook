@@ -17,7 +17,7 @@ export const memberMissionResponseDTO = (membermission) => {
   return { membermission };
 };
 
-// 내가 작성한 리뷰 목록
+// 내가 작성한 리뷰 목록(페이징)
 export const previewReviewResponseDTO = (data) => {
   const reviews = [];
 

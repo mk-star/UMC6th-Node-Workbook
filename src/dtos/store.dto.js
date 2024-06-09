@@ -13,7 +13,7 @@ export const addMissionResponseDTO = (mission) => {
   return { mission };
 };
 
-// 미션 목록 조회(페이징)
+// 특정 가게의 리뷰 목록 조회(페이징)
 export const previewReviewResponseDTO = (data) => {
   const reviews = [];
 
@@ -21,7 +21,7 @@ export const previewReviewResponseDTO = (data) => {
     reviews.push({
       member_name: data[i].name,
       rate: data[i].rate,
-      review_body: data[i].body,
+      body: data[i].body,
       create_date: formatDate(data[i].created_at),
     });
   }
@@ -33,4 +33,22 @@ const formatDate = (date) => {
     .format(new Date(date))
     .replaceAll(" ", "")
     .slice(0, -1);
+};
+
+// 특정 가게의 리뷰 목록 조회(페이징)
+
+export const previewMissionResponseDTO = (data) => {
+  const missions = [];
+
+  console.log("엥" + data.length);
+  for (let i = 0; i < data.length; i++) {
+    missions.push({
+      store_name: data[i].name,
+      store_type: data[i].type,
+      point: data[i].point,
+      deadline: data[i].deadline,
+      price: data[i].price,
+    });
+  }
+  return { missionData: missions, cursorId: data[data.length - 1].mission_id };
 };

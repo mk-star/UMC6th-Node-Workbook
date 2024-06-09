@@ -13,6 +13,8 @@ import {
   insertStoreSql,
   getReviewByReviewIdAtFirst,
   getReviewByReviewId,
+  getMissionByReviewIdAtFirst,
+  getMissionByReviewId,
 } from "./store.sql.js";
 
 // 특정 지역에 가게 추가 성공 시 반환
@@ -164,7 +166,7 @@ export const getMission = async (missionId) => {
   }
 };
 
-// 리뷰 목록 조회(페이징)
+// 특정 가게의 리뷰 목록 조회(페이징)
 export const getPreviewReview = async (cursorId, size, storeId) => {
   try {
     const conn = await pool.getConnection();
@@ -188,6 +190,36 @@ export const getPreviewReview = async (cursorId, size, storeId) => {
       ]);
       conn.release();
       return reviews;
+    }
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 특정 가게의 미션 목록 조회(페이징)
+export const getPreviewMission = async (cursorId, size, storeId) => {
+  try {
+    const conn = await pool.getConnection();
+
+    if (
+      cursorId == "undefined" ||
+      typeof cursorId == "undefined" ||
+      cursorId == null
+    ) {
+      const [missions] = await pool.query(getMissionByReviewIdAtFirst, [
+        parseInt(storeId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return missions;
+    } else {
+      const [missions] = await pool.query(getMissionByReviewId, [
+        parseInt(storeId),
+        parseInt(cursorId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return missions;
     }
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG);

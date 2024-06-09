@@ -7,7 +7,7 @@ import {
   joinStoreRegion,
 } from "../services/store.service.js";
 
-import { getReview } from "../providers/store.provider.js";
+import { getReview, getMission } from "../providers/store.provider.js";
 
 // 특정 지역에 가게 추가
 export const storeRegion = async (req, res, next) => {
@@ -42,12 +42,21 @@ export const storeMission = async (req, res, next) => {
   );
 };
 
-// 목록 조회(페이징)
+// 특정 가게 리뷰 목록 조회(페이징)
 export const reviewPreview = async (req, res, next) => {
-  console.log("목록 조회를 요청하였습니다!");
+  console.log("특정 가게의 리뷰 목록 조회를 요청하였습니다!");
   console.log("body:", req.query);
 
   return res.send(
     response(status.SUCCESS, await getReview(req.params.storeId, req.query))
+  );
+};
+
+export const missionPreview = async (req, res, next) => {
+  console.log("특정 가게의 미션 목록 조회를 요청하였습니다!");
+  console.log("body:", req.query);
+
+  return res.send(
+    response(status.SUCCESS, await getMission(req.params.storeId, req.query))
   );
 };
