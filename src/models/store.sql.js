@@ -38,13 +38,13 @@ export const getReviewByReviewIdAtFirst =
   "ORDER BY r.id DESC LIMIT ? ;";
 
 // 특정 가게의 미션 목록 조회(페이징)
-export const getMissionByReviewId =
+export const getMissionByMissionId =
   "SELECT s.name, s.type, m.id as mission_id, s.id as store_id, m.point, m.deadline, m.price " +
   "FROM mission m JOIN store s on m.store_id = s.id " +
   "WHERE m.store_id = ? AND m.id < ? " +
   "ORDER BY m.id DESC LIMIT ? ;";
 
-export const getMissionByReviewIdAtFirst =
+export const getMissionByMissionIdAtFirst =
   "SELECT s.name, s.type, m.id as mission_id, s.id as store_id, m.point, m.deadline, m.price " +
   "FROM mission m JOIN store s on m.store_id = s.id " +
   "WHERE m.store_id = ? " +

@@ -13,6 +13,8 @@ import {
   getMemberMissionInfo,
   getReviewByReviewIdAtFirst,
   getReviewByReviewId,
+  getMissionByMissionIdAtFirst,
+  getMissionByMissionId,
 } from "./user.sql.js";
 
 // sign in -> insert query
@@ -145,7 +147,7 @@ export const getMemberMission = async (member_missionId) => {
   }
 };
 
-// 내가 작성한 리뷰 목록 조회(페이징)
+// 사용자가 작성한 리뷰 목록 조회(페이징)
 export const getPreviewReview = async (cursorId, size, memberId) => {
   try {
     const conn = await pool.getConnection();
@@ -177,6 +179,44 @@ export const getPreviewReview = async (cursorId, size, memberId) => {
       ]);
       conn.release();
       return reviews;
+    }
+  } catch (err) {
+    throw new BaseError(status.PARAMETER_IS_WRONG);
+  }
+};
+
+// 사용자가 진행 중인 미션 목록 조회(페이징)
+export const getPreviewMission = async (cursorId, size, memberId) => {
+  try {
+    const conn = await pool.getConnection();
+
+    const [confirm] = await pool.query(confirmMember, memberId);
+
+    // 멤버가 존재하지 않음
+    if (!confirm[0].isExistMember) {
+      console.release();
+      return -1;
+    }
+
+    if (
+      cursorId == "undefined" ||
+      typeof cursorId == "undefined" ||
+      cursorId == null
+    ) {
+      const [missions] = await pool.query(getMissionByMissionIdAtFirst, [
+        parseInt(memberId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return missions;
+    } else {
+      const [missions] = await pool.query(getMissionByMissionId, [
+        parseInt(memberId),
+        parseInt(cursorId),
+        parseInt(size),
+      ]);
+      conn.release();
+      return missions;
     }
   } catch (err) {
     throw new BaseError(status.PARAMETER_IS_WRONG);

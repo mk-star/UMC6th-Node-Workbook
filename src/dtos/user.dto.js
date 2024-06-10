@@ -38,3 +38,16 @@ const formatDate = (date) => {
     .replaceAll(" ", "")
     .slice(0, -1);
 };
+
+export const previewMissionResponseDTO = (data) => {
+  const missions = [];
+
+  for (let i = 0; i < data.length; i++) {
+    missions.push({
+      store_name: data[i].store_name,
+      point: data[i].point,
+      price: data[i].price,
+    });
+  }
+  return { missionData: missions, cursorId: data[data.length - 1].mission_id };
+};

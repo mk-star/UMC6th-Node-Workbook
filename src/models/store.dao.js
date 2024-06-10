@@ -13,8 +13,8 @@ import {
   insertStoreSql,
   getReviewByReviewIdAtFirst,
   getReviewByReviewId,
-  getMissionByReviewIdAtFirst,
-  getMissionByReviewId,
+  getMissionByMissionIdAtFirst,
+  getMissionByMissionId,
 } from "./store.sql.js";
 
 // 특정 지역에 가게 추가 성공 시 반환
@@ -206,14 +206,14 @@ export const getPreviewMission = async (cursorId, size, storeId) => {
       typeof cursorId == "undefined" ||
       cursorId == null
     ) {
-      const [missions] = await pool.query(getMissionByReviewIdAtFirst, [
+      const [missions] = await pool.query(getMissionByMissionIdAtFirst, [
         parseInt(storeId),
         parseInt(size),
       ]);
       conn.release();
       return missions;
     } else {
-      const [missions] = await pool.query(getMissionByReviewId, [
+      const [missions] = await pool.query(getMissionByMissionId, [
         parseInt(storeId),
         parseInt(cursorId),
         parseInt(size),
