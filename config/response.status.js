@@ -134,4 +134,12 @@ export const status = {
     code: "STORE4003",
     message: "존재하지 않는 지역입니다.",
   },
+
+  // mission err
+  MISSION_NOT_EXIST: {
+    status: StatusCodes.BAD_REQUEST,
+    isSuccess: false,
+    code: "MISSION4001",
+    message: "존재하지 않는 미션입니다.",
+  },
 };

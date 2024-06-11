@@ -1,12 +1,18 @@
 import { BaseError } from "../../config/error.js";
 import { status } from "../../config/response.status.js";
-import { addReview, getReview, addStoreRegion } from "../models/store.dao.js";
+import {
+  addReview,
+  getReview,
+  addStoreRegion,
+  getStoreRegion,
+  addMission,
+  getMission,
+} from "../models/store.dao.js";
 import {
   addReviewResponseDTO,
   addMissionResponseDTO,
   addStoreRegionResponseDTO,
 } from "../dtos/store.dto.js";
-import { addMission, getMission, getStoreRegion } from "../models/store.dao.js";
 
 // 특정 지역에 가게 추가
 export const joinStoreRegion = async (regionId, body) => {
@@ -57,7 +63,7 @@ export const joinReview = async (storeId, body) => {
 export const joinMission = async (storeId, body) => {
   try {
     const missionData = await addMission({
-      store_id: storeId,
+      storeId: storeId,
       price: body.price,
       point: body.point,
       deadline: body.deadline,

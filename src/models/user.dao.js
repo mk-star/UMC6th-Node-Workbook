@@ -98,9 +98,6 @@ export const addMemberMission = async (data) => {
   try {
     const conn = await pool.getConnection();
 
-    console.log(data.member_id);
-    console.log(data.mission_id);
-
     // 존재하는 멤버인지
     const [confirm1] = await pool.query(confirmMember, data.member_id);
     if (!confirm1[0].isExistMember) {

@@ -131,7 +131,7 @@ export const addMission = async (data) => {
     const conn = await pool.getConnection();
 
     const result = await pool.query(insertMissionSql, [
-      data.store_id,
+      data.storeId,
       data.price,
       data.point,
       data.deadline,
